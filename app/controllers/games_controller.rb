@@ -1,13 +1,14 @@
 class GamesController < ApplicationController
   before_action :set_game, only: %i[ show edit update destroy ]
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
+  before_action :check_ownership, only: [:edit, :update, :destroy]
 
-  # GET /games or /games.json
+  # GET /games
   def index
     @games = Game.all
   end
 
-  # GET /games/1 or /games/1.json
+  # GET /games/1
   def show
   end
 
@@ -20,7 +21,7 @@ class GamesController < ApplicationController
   def edit
   end
 
-  # POST /games or /games.json
+  # POST /games
   def create
     # @game = Game.new(game_params, user_id: current_user.user_id)
     @game = Game.new(name: game_params[:name], condition: game_params[:condition], min_player: game_params[:min_player], max_player: game_params[:max_player], price: game_params[:price], description: game_params[:description], user: current_user)
@@ -33,7 +34,7 @@ class GamesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /games/1 or /games/1.json
+  # PATCH/PUT /games/1
   def update
     respond_to do |format|
       if @game.update(game_params)
@@ -46,7 +47,7 @@ class GamesController < ApplicationController
     end
   end
 
-  # DELETE /games/1 or /games/1.json
+  # DELETE /games/1
   def destroy
     @game.destroy
 
