@@ -1,12 +1,14 @@
 class GamesController < ApplicationController
   before_action :set_game, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
+  before_action :check_ownership, only: [:edit, :update, :destroy]
 
-  # GET /games or /games.json
+  # GET /games
   def index
     @games = Game.all
   end
 
-  # GET /games/1 or /games/1.json
+  # GET /games/1
   def show
   end
 
@@ -19,41 +21,39 @@ class GamesController < ApplicationController
   def edit
   end
 
-  # POST /games or /games.json
+  # POST /games
   def create
-    @game = Game.new(game_params)
-
+    # @game = Game.new(game_params, user_id: current_user.user_id)
+    @game = Game.new(name: game_params[:name], condition: game_params[:condition], min_player: game_params[:min_player], max_player: game_params[:max_player], price: game_params[:price], description: game_params[:description], user: current_user)
     respond_to do |format|
       if @game.save
         format.html { redirect_to game_url(@game), notice: "Game was successfully created." }
-        format.json { render :show, status: :created, location: @game }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @game.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # PATCH/PUT /games/1 or /games/1.json
+  # PATCH/PUT /games/1
   def update
     respond_to do |format|
       if @game.update(game_params)
         format.html { redirect_to game_url(@game), notice: "Game was successfully updated." }
-        format.json { render :show, status: :ok, location: @game }
+  
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @game.errors, status: :unprocessable_entity }
+        
       end
     end
   end
 
-  # DELETE /games/1 or /games/1.json
+  # DELETE /games/1
   def destroy
     @game.destroy
 
     respond_to do |format|
       format.html { redirect_to games_url, notice: "Game was successfully destroyed." }
-      format.json { head :no_content }
+      
     end
   end
 
@@ -65,6 +65,12 @@ class GamesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def game_params
-      params.require(:game).permit(:name, :condition, :min_player, :max_player, :price, :description, :user_id)
+      params.require(:game).permit(:name, :condition, :min_player, :max_player, :price, :description)
+    end
+
+    def check_ownership
+      if !(current_user.admin? or current_user.id == @game.user_id)
+        redirect_to games_url, alert: "You have to be the seller of a game or an admin to do this."
+      end
     end
 end
