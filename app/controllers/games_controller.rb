@@ -24,7 +24,7 @@ class GamesController < ApplicationController
   # POST /games
   def create
     # @game = Game.new(game_params, user_id: current_user.user_id)
-    @game = Game.new(name: game_params[:name], condition: game_params[:condition], min_player: game_params[:min_player], max_player: game_params[:max_player], price: game_params[:price], description: game_params[:description], user: current_user)
+    @game = Game.new(name: game_params[:name], condition: game_params[:condition], min_player: game_params[:min_player], max_player: game_params[:max_player], price: game_params[:price], description: game_params[:description], genre: game_params[:genre], user: current_user)
     respond_to do |format|
       if @game.save
         format.html { redirect_to game_url(@game), notice: "Game was successfully created." }
@@ -65,7 +65,7 @@ class GamesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def game_params
-      params.require(:game).permit(:name, :condition, :min_player, :max_player, :price, :description)
+      params.require(:game).permit(:name, :condition, :min_player, :max_player, :price, :description, :genre)
     end
 
     def check_ownership
