@@ -17,8 +17,13 @@
   </div>
 
   <div class="field">
-    <%= form.label :condition %>
-    <%= form.number_field :condition %>
+    <%= form.label :genre %><br>
+    <%= form.select :genre, Game.genres.keys %>
+  </div>
+
+  <div class="field">
+    <%= form.label :condition %><br>
+    <%= form.select :condition, Game.conditions.keys %>
   </div>
 
   <div class="field">
