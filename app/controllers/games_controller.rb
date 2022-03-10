@@ -66,4 +66,10 @@ class GamesController < ApplicationController
     def game_params
       params.require(:game).permit(:name, :condition, :min_player, :max_player, :price, :description)
     end
+
+    def check_ownership
+      if !(current_user.admin? or current_user.id == @game.user_id)
+        redirect_to games_url, alert: "You have to be the seller of a game or an admin to do this."
+      end
+    end
 end
