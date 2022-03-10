@@ -1,15 +1,16 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-   
-        
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                 
+        
                 <li class="nav-item">
                     <%= link_to "Home", games_path, class: "nav-link active" %> 
                 </li>
                 
                 <% if user_signed_in? %>
+                    <li class="nav-item">
+                        <%= link_to 'Sell my game', new_game_path, class: "nav-link active" %>
+                    </li>
                     <li class="nav-item">
                         <%= button_to "Logout", destroy_user_session_path, method: "delete", class: "nav-link active" %>
                     </li>
