@@ -1,2 +1,25 @@
-<h1>Addresses</h1>
+<h1>Addresses Index</h1>
 
+<% @addresses.each do |address| %>
+    
+    <p>
+      <strong>Street:</strong>
+      <%= address.street_number %> <%= address.street_name %>
+    </p>
+
+    <p>
+      <strong>Suburb:</strong>
+      <%= address.suburb %>
+    </p>
+
+    <p>
+      <strong>State:</strong>
+      <%= address.state %>
+    </p>
+
+    <p>
+      <strong>Postcode:</strong>
+      <%= address.postcode %>
+    </p>
+  
+  <% end %>

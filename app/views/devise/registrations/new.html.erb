@@ -26,7 +26,7 @@
     <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
 
-  <%= f.fields_for :with_address do |address_form| %>
+  <%= f.fields_for :address do |address_form| %>
     <div class="field">
         <%= address_form.label :street_number %>
         <%= address_form.number_field :street_number, required:true %>
