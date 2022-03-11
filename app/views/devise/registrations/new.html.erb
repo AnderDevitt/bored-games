@@ -26,8 +26,35 @@
     <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
 
+  <%= f.fields_for :with_address do |address_form| %>
+    <div class="field">
+        <%= address_form.label :street_number %>
+        <%= address_form.number_field :street_number, required:true %>
+    </div>
+
+    <div class="field">
+        <%= address_form.label :street_name %>
+        <%= address_form.text_field :street_name, required:true %>
+    </div>
+
+    <div class="field">
+        <%= address_form.label :suburb %>
+        <%= address_form.text_field :suburb, required:true %>
+    </div>
+
+    <div class="field">
+        <%= address_form.label :state %>
+        <%= address_form.text_field :state, required:true %>
+    </div>
+
+    <div class="field">
+        <%= address_form.label :postcode %>
+        <%= address_form.text_field :postcode, required:true %>
+    </div>
+   <% end %>
+
   <div class="actions">
-    <%= f.submit "Sign up" %>
+    <%= f.submit "Sign up" %>p
   </div>
 <% end %>
 

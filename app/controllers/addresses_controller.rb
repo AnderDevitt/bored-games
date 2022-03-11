@@ -3,23 +3,43 @@ class AddressesController < ApplicationController
     before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
     before_action :check_ownership, only: [:show, :edit, :update, :destroy]
 
+    # GET /addresses
     def index
         @addresses = Address.all
     end
 
+    # GET /addresses/1
     def show
         @address = Address.find(params[:id])
     end
 
+    # GET /addresses/new
     def new
         @address = Address.new
     end
 
+    # GET /addresses/1/edit
+    def edit
+    end
+
+    # POST /games
     def create
         Address.create(street_number: params[:street_number], street_name: params[:street_name], suburb: params[:suburb], state: params[:state], postcode: params[:postcode], user: current_user)
         redirect_to games_path
     end
 
+    # PATCH/PUT /addresses/1
+    def update
+        respond_to do |format|
+        if @address.update(address_params)
+            format.html { redirect_to game_url, notice: "Address was successfully updated." }
+    
+        else
+            format.html { render :edit, status: :unprocessable_entity }
+            
+        end
+        end
+    end
 
     private
     # Use callbacks to share common setup or constraints between actions.
